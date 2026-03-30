@@ -1,0 +1,7 @@
+credentials.yml
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hclterraform/.terraform/
+terraform/.terraform.lock.hcl
+**/.terraform/

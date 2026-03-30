@@ -1,0 +1,82 @@
+resources:
+- name: repo
+  type: git
+  source:
+    uri: https://github.com/harishmurali10725-beep/concourse.git
+    branch: main
+    username: ((git_username))
+    password: ((git_token))
+
+jobs:
+- name: build-pipeline
+  plan:
+
+  - get: repo
+    trigger: true
+
+  - task: run-python
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: python
+          tag: "3.9"
+      inputs:
+      - name: repo
+      outputs:
+      - name: log-file
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+          sed -i 's/\r$//' repo/scripts/run-task.sh repo/scripts/script.py
+          chmod +x repo/scripts/run-task.sh
+          cd repo/scripts
+          bash run-task.sh
+
+  - task: prepare-log
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: alpine
+      inputs:
+      - name: log-file
+      - name: repo
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+          echo "📂 Copying log1.txt into repo"
+          cp log-file/log1.txt repo/
+          echo "✅ Done"
+          ls -l repo/
+
+  - task: terraform-run
+    config:
+      platform: linux
+      image_resource:
+        type: registry-image
+        source:
+          repository: hashicorp/terraform
+          tag: "1.5"
+      inputs:
+      - name: repo
+      - name: log-file
+      params:
+        AWS_ACCESS_KEY_ID: ((aws_access_key))
+        AWS_SECRET_ACCESS_KEY: ((aws_secret_key))
+        AWS_DEFAULT_REGION: us-east-1
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+          sed -i 's/\r$//' repo/scripts/terraform_run_task.sh
+          chmod +x repo/scripts/terraform_run_task.sh
+          cd repo/scripts
+          sh terraform_run_task.sh

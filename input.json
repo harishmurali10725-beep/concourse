@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "name": "Harish",
+      "age": 20,
+      "city": "Thanjavur"
+    },
+    {
+      "name": "Arun",
+      "age": 27,
+      "city": "Chennai"
+    },
+    {
+      "name": "Akash roy",
+      "age": 29,
+      "city": "Chennai"
+    }
+  ]
+}
