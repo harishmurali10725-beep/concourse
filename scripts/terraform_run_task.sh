@@ -13,7 +13,7 @@ else
 fi
 
 echo "➡️ Moving to terraform folder"
-cd ../terraform/module
+cd ../terraform
 
 echo "📍 Current folder"
 pwd
