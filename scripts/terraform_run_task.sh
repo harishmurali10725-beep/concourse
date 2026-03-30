@@ -21,8 +21,7 @@ pwd
 echo "📂 Files"
 ls -l
 
-echo "🔐 AWS check"
-aws sts get-caller-identity
+
 
 echo "🚀 Terraform Init"
 terraform init -reconfigure
