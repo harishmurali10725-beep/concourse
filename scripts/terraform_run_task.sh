@@ -27,9 +27,9 @@ echo "🚀 Terraform Init"
 terraform init -reconfigure
 
 echo "📋 Terraform Plan"
-terraform plan -var-file="../../env/dev.tfvars"
+terraform plan -var-file="../env/dev.tfvars"
 
 echo "⚙️ Terraform Apply"
-terraform apply -var-file="../../env/dev.tfvars" -auto-approve
+terraform apply -var-file="../env/dev.tfvars" -auto-approve
 
 echo "✅ Done"
